@@ -20,6 +20,14 @@ public class OrderItem {
     @JoinColumn(name="order_id")
     private Order order;
 
+    public OrderItem(){}
+
+    public OrderItem(Product product, Integer productCount, Order order) {
+        this.product = product;
+        this.productCount = productCount;
+        this.order = order;
+    }
+
     @JsonIgnore
     public Long getId() {
         return id;
