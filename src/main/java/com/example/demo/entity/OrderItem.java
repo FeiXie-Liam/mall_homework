@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.criteria.Order;
 
@@ -11,7 +13,11 @@ public class OrderItem {
     private Long id;
     @Column(name = "count")
     private Integer productCount;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, targetEntity = Order.class)
+    @JoinColumn(name="order_id")
     private Order order;
 
     public Long getId() {
@@ -38,6 +44,7 @@ public class OrderItem {
         this.product = product;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return order;
     }

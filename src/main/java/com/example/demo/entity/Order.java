@@ -10,7 +10,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", targetEntity = OrderItem.class, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
     public Long getId() {
         return id;
