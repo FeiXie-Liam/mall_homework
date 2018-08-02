@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.DTO.OrderDTO;
 import com.example.demo.entity.Order;
+import com.example.demo.entity.OrderItem;
 import com.example.demo.service.OrderService;
 import com.example.demo.utils.OrderItemInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,11 @@ public class OrderController {
     public ResponseEntity add(@RequestBody List<OrderItemInfo> infos){
         Order order = orderService.add(infos);
         return ResponseEntity.ok(order);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody OrderItemInfo info){
+        orderService.update(id, info);
+        return ResponseEntity.noContent().build();
     }
 }

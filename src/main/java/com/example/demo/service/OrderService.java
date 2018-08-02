@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -20,7 +22,7 @@ public class OrderService {
     @Autowired
     ProductService productService;
 
-    public Order get(Long id){
+    public Order get(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
@@ -41,5 +43,21 @@ public class OrderService {
         order.setOrderItems(orderItems);
         orderRepository.save(order);
         return order;
+    }
+
+    public void update(Long id, OrderItemInfo info) {
+        Optional<Order> seletedOrder = orderRepository.findById(id);
+        if (seletedOrder.isPresent()) {
+            List<OrderItem> orderItems = seletedOrder.get().getOrderItems();
+            orderItems = orderItems.stream().map(orderItem -> {
+                if (orderItem.getProduct().getId().equals(info.getProductId())) {
+                    orderItem.setProductCount(info.getProductCount());
+                }
+                return orderItem;
+            }).collect(Collectors.toList());
+            seletedOrder.get().setOrderItems(orderItems);
+            orderRepository.save(seletedOrder.get());
+        }
+
     }
 }
