@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Order;
+
 
 @Entity
 @Table(name = "order_item")
