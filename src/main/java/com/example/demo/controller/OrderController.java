@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.OrderDTO;
 import com.example.demo.entity.Order;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OrderController {
     public ResponseEntity get(@PathVariable Long id){
         Order order = orderService.get(id);
         if(order != null){
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(new OrderDTO(order));
         }
         return ResponseEntity.notFound().build();
     }

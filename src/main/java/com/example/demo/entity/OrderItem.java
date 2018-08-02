@@ -11,15 +11,16 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "count")
-    private Integer productCount;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    @Column(name = "count")
+    private Integer productCount;
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, targetEntity = Order.class)
     @JoinColumn(name="order_id")
     private Order order;
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }
