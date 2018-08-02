@@ -24,4 +24,9 @@ public class OrderController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping
+    public ResponseEntity getAll(){
+        return ResponseEntity.ok(orderService.getAll());
+    }
 }
