@@ -42,4 +42,10 @@ public class OrderController {
         orderService.update(id, info);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/orderItems/{productId}")
+    public ResponseEntity addOrderItem(@PathVariable Long id, @PathVariable Long productId){
+        Order order = orderService.addOrderItem(id, productId);
+        return ResponseEntity.ok(order);
+    }
 }

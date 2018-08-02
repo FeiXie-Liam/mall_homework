@@ -5,7 +5,6 @@ import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderItem;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.OrderRepository;
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.utils.OrderItemInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +58,29 @@ public class OrderService {
             orderRepository.save(seletedOrder.get());
         }
 
+    }
+
+    public Order addOrderItem(Long id, Long productId) {
+        Optional<Order> seletedOrder = orderRepository.findById(id);
+        if (seletedOrder.isPresent()) {
+            List<OrderItem> orderItems = seletedOrder.get().getOrderItems();
+            if (orderItems.stream().filter(orderItem -> orderItem.getProduct().getId().equals(productId)).toArray().length != 0) {
+                orderItems = orderItems.stream().map(orderItem -> {
+                    if (orderItem.getProduct().getId().equals(productId)) {
+                        orderItem.setProductCount(orderItem.getProductCount() + 1);
+                    }
+                    return orderItem;
+                }).collect(Collectors.toList());
+            }
+            else{
+                Product product = productService.get(productId);
+                OrderItem curItem = new OrderItem(product, 1, seletedOrder.get());
+                orderItems.add(curItem);
+            }
+
+            seletedOrder.get().setOrderItems(orderItems);
+            orderRepository.save(seletedOrder.get());
+        }
+        return seletedOrder.orElse(null);
     }
 }
